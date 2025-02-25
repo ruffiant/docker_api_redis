@@ -105,11 +105,15 @@ services:
       - api_server_network
 
   # Elasticsearch服务
+  # Elasticsearch服务
   elasticsearch:
     image: elasticsearch:8.17.2
     container_name: elasticsearch
     environment:
       - discovery.type=single-node
+      - xpack.security.enabled=false    # 禁用安全功能以便测试
+      - ELASTIC_PASSWORD=changeme       # 设置默认密码
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"  # 设置 JVM 堆大小
     ports:
       - "9200:9200"
     volumes:
@@ -130,13 +134,18 @@ services:
       - api_server_network
 
   # Kibana服务
+  # Kibana服务
+  # Kibana服务
   kibana:
     image: kibana:8.17.2
     container_name: kibana
     ports:
       - "5601:5601"
     environment:
-      ELASTICSEARCH_URL: http://elasticsearch:9200
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - ELASTICSEARCH_USERNAME=kibana_system
+      - ELASTICSEARCH_PASSWORD=changeme
+      - XPACK_SECURITY_ENABLED=false
     depends_on:
       - elasticsearch
     networks:
