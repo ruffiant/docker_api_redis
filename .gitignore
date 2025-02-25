@@ -1,0 +1,30 @@
+# IDE and Editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Laravel specific
+project/vendor/
+project/node_modules/
+project/.env
+project/storage/*.key
+project/storage/framework/cache/*
+project/storage/framework/sessions/*
+project/storage/framework/views/*
+project/storage/logs/*
+project/public/hot
+project/public/storage
+
+# Docker specific
+docker/mysql/master/data/*
+docker/mysql/slave/data/*
+docker/redis/master/data/*
+docker/redis/slave/data/*
+
+# Keep .gitkeep files
+!.gitkeep
