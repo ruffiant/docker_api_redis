@@ -4,11 +4,12 @@
 api.http.host: "0.0.0.0"
 
 # 设置Elasticsearch输出
-xpack.monitoring.enabled: true
+xpack.monitoring.enabled: false
 xpack.monitoring.elasticsearch.hosts: ["http://elasticsearch:9200"]
-xpack.monitoring.elasticsearch.connection_timeout: 15s
-xpack.monitoring.elasticsearch.retry.initial: 5s
-xpack.monitoring.elasticsearch.retry.max: 60s
+
+
+
+
 
 # 性能调优
 pipeline.workers: 2
