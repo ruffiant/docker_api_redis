@@ -1,0 +1,161 @@
+#version: '3.8'
+
+services:
+  # PHP服务
+  app:
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+    container_name: laravel_app
+    volumes:
+      - ./project:/var/www/html
+    depends_on:
+      - mysql_master
+      - redis_master
+      - rabbitmq
+    networks:
+      - api_server_network
+
+  # Nginx服务
+  nginx:
+    image: nginx:1.26
+    container_name: laravel_nginx
+    ports:
+      - "80:81"
+    volumes:
+      - ./project:/var/www/html
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - app
+    networks:
+      - api_server_network
+
+  # MySQL主服务器
+  mysql_master:
+    image: mysql:8.0
+    container_name: mysql_master
+    ports:
+      - "3306:3307"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: secret
+    volumes:
+      - mysql_master_data:/var/lib/mysql
+      - ./docker/mysql/master:/etc/mysql/conf.d
+    networks:
+      - api_server_network
+
+  # MySQL从服务器
+  mysql_slave:
+    image: mysql:8.0
+    container_name: mysql_slave
+    ports:
+      - "3307:3308"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: secret
+    volumes:
+      - mysql_slave_data:/var/lib/mysql
+      - ./docker/mysql/slave:/etc/mysql/conf.d
+    depends_on:
+      - mysql_master
+    networks:
+      - api_server_network
+
+  # Redis主服务器
+  redis_master:
+    # image: redis:alpine
+    image: redis:7.4.2-bookworm
+    container_name: redis_master
+    ports:
+      - "6379:6380"
+    volumes:
+      - ./docker/redis/master:/usr/local/etc/redis
+    networks:
+      - api_server_network
+
+  # Redis从服务器
+  redis_slave:
+    image: redis:7.4.2-bookworm
+    container_name: redis_slave
+    ports:
+      - "6380:6381"
+    volumes:
+      - ./docker/redis/slave:/usr/local/etc/redis
+    depends_on:
+      - redis_master
+    networks:
+      - api_server_network
+
+  # RabbitMQ服务
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - api_server_network
+
+  # Elasticsearch服务
+  elasticsearch:
+    image: elasticsearch:8.17.2
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+    ports:
+      - "9200:9200"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    networks:
+      - api_server_network
+
+  # Logstash服务
+  logstash:
+    image: logstash:8.17.2
+    container_name: logstash
+    volumes:
+      - ./docker/logstash/pipeline:/usr/share/logstash/pipeline
+      - ./docker/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
+    depends_on:
+      - elasticsearch
+    networks:
+      - api_server_network
+
+  # Kibana服务
+  kibana:
+    image: kibana:8.17.2
+    container_name: kibana
+    ports:
+      - "5601:5601"
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+    depends_on:
+      - elasticsearch
+    networks:
+      - api_server_network
+
+  # Consul服务注册中心
+  consul:
+    image: consul:1.15.4
+    container_name: consul
+    ports:
+      - "8500:8500"
+    networks:
+      - api_server_network
+
+networks:
+  api_server_network:
+    driver: bridge
+
+volumes:
+  mysql_master_data:
+  mysql_slave_data:
+  elasticsearch_data:
