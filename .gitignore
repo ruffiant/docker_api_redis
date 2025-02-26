@@ -28,5 +28,5 @@ docker/redis/slave/data/*
 
 
 docker/elasticsearch/data/*
+docker/elasticsearch/data/indices/*
 docker/elasticsearch/logs/*
-
