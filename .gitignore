@@ -26,5 +26,7 @@ docker/mysql/slave/data/*
 docker/redis/master/data/*
 docker/redis/slave/data/*
 
-# Keep .gitkeep files
-!.gitkeep
+
+docker/elasticsearch/data/*
+docker/elasticsearch/logs/*
+
