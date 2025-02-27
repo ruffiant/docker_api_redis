@@ -111,14 +111,14 @@ services:
     restart: no
     environment:
       - discovery.type=single-node
-      - xpack.security.enabled=true    # 禁用安全功能以便测试
-      - ELASTIC_PASSWORD=elastic123      # elastic 超级用户密码
+      # - xpack.security.enabled=true    # 禁用安全功能以便测试
+      - xpack.security.enabled=true
+      - xpack.security.enrollment.enabled=true
+      - xpack.security.authc.api_key.enabled=true
+      - ELASTIC_PASSWORD=DntKdS*4SG9ZMDFOBsh2      # elastic 超级用户密码
       - KIBANA_SYSTEM_PASSWORD=kibana123 #
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"  # 设置 JVM 堆大小
-      - discovery.type=single-node
-      # 设置 Elasticsearch 的发现类型为单节点
-      - ES_JAVA_OPTS=-Xms1024m -Xmx1024m
-      # 设置 Elasticsearch 的 Java 虚拟机选项，分配 256MB 堆内存
+
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -132,8 +132,11 @@ services:
       # 挂载插件目录
       - ./docker/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
       # 挂载配置文件
+      - ./docker/elasticsearch/certs:/usr/share/elasticsearch/config/certs
+      # 挂载证书目录
     networks:
       - api_server_network
+
 
   # Logstash服务
   logstash:
@@ -158,8 +161,7 @@ services:
       - ELASTICSEARCH_USERNAME=kibana_system
       - ELASTICSEARCH_PASSWORD=kibana123
       - SERVER_HOST=0.0.0.0
-      - XPACK_SECURITY_ENABLED=true     # 启用安全功能
-      - XPACK_ENCRYPTEDSAVEDOBJECTS_ENCRYPTIONKEY=something_at_least_32_characters
+      - XPACK_SECURITY_ENABLED=true
     depends_on:
       - elasticsearch
     volumes:
@@ -178,6 +180,7 @@ services:
 
 networks:
   api_server_network:
+    external: true
     driver: bridge
 
 volumes:

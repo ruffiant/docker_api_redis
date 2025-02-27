@@ -3,3 +3,9 @@ network.host: 0.0.0.0
 http.cors.allow-origin: "*"
 http.cors.enabled: true
 http.cors.allow-headers: Authorization,X-Requested-With,Content-Length,Content-Type
+
+
+xpack.security.enabled: true
+xpack.security.authc.api_key.enabled: true
+xpack.security.enrollment.enabled: true
+http.port: 9200

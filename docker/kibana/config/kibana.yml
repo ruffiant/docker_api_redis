@@ -5,17 +5,14 @@ elasticsearch.username: "elastic"
 elasticsearch.password: "elastic123"
 # 启用安全功能
 
-
-
-
 # 安全配置
 xpack:
   security:
-    enabled: true
     encryptionKey: 4472bdb9622aecd3f926e173ced30cf9
   encryptedSavedObjects:
     encryptionKey: "4edf0e75db558a89debde866acf41f47"
   reporting:
+    roles.enabled: false
     encryptionKey: "88ef8d72b530b64ad546c573a8f2e0d7"
 
 i18n.locale: "zh-CN"
