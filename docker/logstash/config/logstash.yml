@@ -1,25 +1,5 @@
 # Logstash 基础配置
-
 # 设置HTTP API (更新为新的配置项)
 api.http.host: "0.0.0.0"
-
 # 设置Elasticsearch输出
-xpack.monitoring.enabled: false
-xpack.monitoring.elasticsearch.hosts: ["http://elasticsearch:9200"]
-
-
-
-
-
-# 性能调优
-pipeline.workers: 2
-pipeline.batch.size: 125
-pipeline.batch.delay: 50
-pipeline.buffer.type: "heap"
-
-# 日志和数据路径
-path.data: /usr/share/logstash/data
-path.logs: /usr/share/logstash/logs
-
-# JVM配置
-log.level: info
+xpack.monitoring.elasticsearch.hosts: ["http://localhost:9200"]
