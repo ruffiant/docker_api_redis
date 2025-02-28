@@ -4,8 +4,8 @@ api.http.host: "0.0.0.0"
 # 设置Elasticsearch输出
 xpack.monitoring.enabled: true
 xpack.monitoring.elasticsearch.hosts: ["http://elasticsearch:9200"]
-xpack.monitoring.elasticsearch.username: "elastic"
-xpack.monitoring.elasticsearch.password: "DntKdS*4SG9ZMDFOBsh2"
+xpack.monitoring.elasticsearch.username: "logstash_system"
+xpack.monitoring.elasticsearch.password: "logstash123"
 
 # 设置pipeline buffer类型和内存配置
 pipeline:

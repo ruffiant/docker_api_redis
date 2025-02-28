@@ -111,13 +111,16 @@ services:
     restart: no
     environment:
       - discovery.type=single-node
-      # - xpack.security.enabled=true    # 禁用安全功能以便测试
       - xpack.security.enabled=true
       - xpack.security.enrollment.enabled=true
-      - xpack.security.authc.api_key.enabled=true
-      - ELASTIC_PASSWORD=DntKdS*4SG9ZMDFOBsh2    # elastic 超级用户密码
-      - KIBANA_SYSTEM_PASSWORD=kibana123 #
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"  # 设置 JVM 堆大小
+      - ELASTIC_USERNAME=elastic
+      - ELASTIC_PASSWORD=DntKdS*4SG9ZMDFOBsh2
+      - KIBANA_SYSTEM_USERNAME=kibana_system
+      - KIBANA_SYSTEM_PASSWORD=kibana123
+      # logstash_system: Logstash 系统用户
+      - LOGSTASH_SYSTEM_USERNAME=logstash_system
+      - LOGSTASH_SYSTEM_PASSWORD=logstash123
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g  # 设置 JVM 堆大小
 
     ports:
       - "9200:9200"
@@ -157,10 +160,10 @@ services:
     ports:
       - "5601:5601"
     environment:
-      # - ELASTICSEARCH_HOSTS=${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}
-      - ELASTICSEARCH_HOSTS=http://elastic:DntKdS*4SG9ZMDFOBsh2@elasticsearch:9200/
-      - ELASTICSEARCH_USERNAME=kibana_system
-      - ELASTICSEARCH_PASSWORD=kibana123
+      # - ELASTICSEARCH_HOSTS=${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT} KIBANA_SYSTEM_PASSWORD
+      - ELASTICSEARCH_HOSTS=http://kibana_system:kibana123@elasticsearch:9200
+      - KIBANA_SYSTEM_USERNAME=kibana_system
+      - KIBANA_SYSTEM_PASSWORD=kibana123
       - SERVER_HOST=0.0.0.0
       - XPACK_SECURITY_ENABLED=true
     depends_on:
