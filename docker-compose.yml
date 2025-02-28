@@ -115,7 +115,7 @@ services:
       - xpack.security.enabled=true
       - xpack.security.enrollment.enabled=true
       - xpack.security.authc.api_key.enabled=true
-      - ELASTIC_PASSWORD=DntKdS*4SG9ZMDFOBsh2      # elastic 超级用户密码
+      - ELASTIC_PASSWORD=DntKdS*4SG9ZMDFOBsh2    # elastic 超级用户密码
       - KIBANA_SYSTEM_PASSWORD=kibana123 #
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"  # 设置 JVM 堆大小
 
@@ -157,7 +157,8 @@ services:
     ports:
       - "5601:5601"
     environment:
-      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      # - ELASTICSEARCH_HOSTS=${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}
+      - ELASTICSEARCH_HOSTS=http://elastic:DntKdS*4SG9ZMDFOBsh2@elasticsearch:9200/
       - ELASTICSEARCH_USERNAME=kibana_system
       - ELASTICSEARCH_PASSWORD=kibana123
       - SERVER_HOST=0.0.0.0

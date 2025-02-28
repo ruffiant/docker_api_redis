@@ -1,10 +1,17 @@
 server.name: kibana
 server.host: "0.0.0.0"
-elasticsearch.hosts: ["http://elastic:elastic123@localhost:9200"]
-elasticsearch.username: "elastic"
-elasticsearch.password: "elastic123"
-# 启用安全功能
+elasticsearch:
+  hosts: ["http://elasticsearch:9200"]
+  username: "elastic"
+  password: "DntKdS*4SG9ZMDFOBsh2"
+  requestTimeout: 300000
+  shardTimeout: 300000
 
+monitoring:
+  ui:
+    container:
+      elasticsearch:
+        enabled: true
 # 安全配置
 xpack:
   security:
