@@ -21,12 +21,13 @@ project/public/hot
 project/public/storage
 
 # Docker specific
-docker/mysql/master/data/*
-docker/mysql/slave/data/*
-docker/redis/master/data/*
-docker/redis/slave/data/*
+docker/mysql/master/data/**/*
+docker/mysql/slave/data/**/*
+docker/redis/master/data/**/*
+docker/redis/slave/data/**/*
 
 
-docker/elasticsearch/data/*
-docker/elasticsearch/data/indices/*
-docker/elasticsearch/logs/*
+docker/elasticsearch/data/**/*
+docker/elasticsearch/data/indices/**/*
+docker/elasticsearch/logs/**/*
+
