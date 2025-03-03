@@ -9,25 +9,25 @@
 Thumbs.db
 
 # Laravel specific
-project/vendor/
-project/node_modules/
-project/.env
-project/storage/*.key
-project/storage/framework/cache/*
-project/storage/framework/sessions/*
-project/storage/framework/views/*
-project/storage/logs/*
-project/public/hot
-project/public/storage
+serverb/vendor/
+serverb/node_modules/
+serverb/.env
+serverb/storage/*.key
+serverb/storage/framework/cache/*
+serverb/storage/framework/sessions/*
+serverb/storage/framework/views/*
+serverb/storage/logs/*
+serverb/public/hot
+serverb/public/storage
 
-# Docker specific
-docker/mysql/master/data/**/*
-docker/mysql/slave/data/**/*
-docker/redis/master/data/**/*
-docker/redis/slave/data/**/*
+# servera specific
+servera/mysql/master/data/**/*
+servera/mysql/slave/data/**/*
+servera/redis/master/data/**/*
+servera/redis/slave/data/**/*
 
 
-docker/elasticsearch/data/**/*
-docker/elasticsearch/data/indices/**/*
-docker/elasticsearch/logs/**/*
+servera/elasticsearch/data/**/*
+servera/elasticsearch/data/indices/**/*
+servera/elasticsearch/logs/**/*
 
