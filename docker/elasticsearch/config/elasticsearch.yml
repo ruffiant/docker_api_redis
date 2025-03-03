@@ -6,6 +6,4 @@ http.cors.allow-headers: Authorization,X-Requested-With,Content-Length,Content-T
 
 
 xpack.security.enabled: true
-xpack.security.authc.api_key.enabled: true
-xpack.security.enrollment.enabled: true
 http.port: 9200

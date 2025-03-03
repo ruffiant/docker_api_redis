@@ -106,13 +106,12 @@ services:
 
   # Elasticsearch服务
   elasticsearch:
-    image: elasticsearch:8.17.2
+    image: elastic/elasticsearch:7.17.28
     container_name: elasticsearch
     restart: no
     environment:
       - discovery.type=single-node
       - xpack.security.enabled=true
-      - xpack.security.enrollment.enabled=true
       - ELASTIC_USERNAME=elastic
       - ELASTIC_PASSWORD=DntKdS*4SG9ZMDFOBsh2
       - KIBANA_SYSTEM_USERNAME=kibana_system
@@ -126,7 +125,6 @@ services:
       - "9200:9200"
       - "9300:9300"
     volumes:
-      - elasticsearch_data:/usr/share/elasticsearch/data
       - ./docker/elasticsearch/logs:/usr/share/elasticsearch/logs
       # 挂载日志目录
       - ./docker/elasticsearch/data:/usr/share/elasticsearch/data
@@ -143,29 +141,34 @@ services:
 
   # Logstash服务
   logstash:
-    image: logstash:8.17.2
+    image: elastic/logstash:7.17.28
     container_name: logstash
+    environment:
+      - ELASTIC_USERNAME=elastic
+      - ELASTIC_PASSWORD=DntKdS*4SG9ZMDFOBsh2
+      - "LS_JAVA_OPTS=-Xms512m -Xmx512m"
     volumes:
       - ./docker/logstash/pipeline:/usr/share/logstash/pipeline
       - ./docker/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
+    ports:
+      - "5044:5044"
     depends_on:
       - elasticsearch
     networks:
       - api_server_network
   # Kibana服务
   kibana:
-    image: kibana:8.17.2
+    image: elastic/kibana:7.17.28
     restart: no # 不重启  
     container_name: kibana
     ports:
       - "5601:5601"
     environment:
       # - ELASTICSEARCH_HOSTS=${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT} KIBANA_SYSTEM_PASSWORD
-      - ELASTICSEARCH_HOSTS=http://kibana_system:kibana123@elasticsearch:9200
+      - ELASTICSEARCH_HOSTS=http//elasticsearch:9200
       - KIBANA_SYSTEM_USERNAME=kibana_system
       - KIBANA_SYSTEM_PASSWORD=kibana123
       - SERVER_HOST=0.0.0.0
-      - XPACK_SECURITY_ENABLED=true
     depends_on:
       - elasticsearch
     volumes:

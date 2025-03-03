@@ -1,16 +1,12 @@
-# Logstash 基础配置
-# 设置HTTP API (更新为新的配置项)
-api.http.host: "0.0.0.0"
-# 设置Elasticsearch输出
+http.host: "0.0.0.0"
 xpack.monitoring.enabled: true
 xpack.monitoring.elasticsearch.hosts: ["http://elasticsearch:9200"]
-xpack.monitoring.elasticsearch.username: "logstash_system"
-xpack.monitoring.elasticsearch.password: "logstash123"
+xpack.monitoring.elasticsearch.username: "elastic"
+xpack.monitoring.elasticsearch.password:  "DntKdS*4SG9ZMDFOBsh2"
 
-# 设置pipeline buffer类型和内存配置
-pipeline:
-  buffer.type: heap # 或者 memory
-  workers: 2        # 工作线程数
-  batch:            # 批量处理配置
-    size: 125 
-    delay: 500 # 毫秒
+path.data: /usr/share/logstash/data
+path.logs: /usr/share/logstash/logs
+
+pipeline.workers: 2
+pipeline.batch.size: 125
+pipeline.batch.delay: 50
